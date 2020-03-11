@@ -136,8 +136,8 @@ namespace Sylver.Network.Client
 
         private void OnClientConnected(object sender, EventArgs e)
         {
-            _receiver.Start(this);
             OnConnected();
+            _receiver.Start(this);
         }
 
         private void OnClientConnectionError(object sender, SocketError e)
