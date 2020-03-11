@@ -206,13 +206,10 @@ namespace Sylver.Network.Infrastructure
 
             if (message != null && message.Connection is INetUser client)
             {
-                Task.Factory.StartNew(() =>
+                using (INetPacketStream packet = _packetProcessor.CreatePacket(message.Data))
                 {
-                    using (INetPacketStream packet = _packetProcessor.CreatePacket(message.Data))
-                    {
-                        client.HandleMessage(packet);
-                    }
-                }, _cancellationToken, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
+                    client.HandleMessage(packet);
+                }
             }
         }
     }
