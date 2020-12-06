@@ -40,6 +40,11 @@ namespace LiteNetwork.Server.Hosting
         public ILitePacketProcessor PacketProcessor { get; set; }
 
         /// <summary>
+        /// Gets or sets the receive strategy type.
+        /// </summary>
+        public ReceiveStrategyType ReceiveStrategy { get; set; }
+
+        /// <summary>
         /// Creates and initializes a new <see cref="LiteServerBuilderOptions"/> instance
         /// with a default <see cref="LitePacketProcessor"/>.
         /// </summary>
