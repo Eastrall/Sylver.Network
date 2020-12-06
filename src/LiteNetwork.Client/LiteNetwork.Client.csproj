@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0-rc.1</Version>
+    <Authors>Filipe GOMES PEIXOTO</Authors>
+    <Product>LiteNetwork</Product>
+    <Copyright>Filipe GOMES PEIXOTO © 2019-2020</Copyright>
+    <Company>Filipe GOMES PEIXOTO</Company>
+    <PackageProjectUrl>https://github.com/Eastrall/LiteNetwork</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Eastrall/LiteNetwork</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>socket,client,tcp,network,networking,lite,packet</PackageTags>
+    <Configurations>Debug;Release;Package</Configurations>
+    <Description>LiteNetwork is a simple and fast networking library built with C# and compatible with .NET Standard 2. Its main goal is to simply the creation of basic socket servers over the TCP/IP protocol. It has been initialy developed for game development networking, but can also be used for other purposes.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LiteNetwork.Common\LiteNetwork.Common.csproj" />
+    <ProjectReference Include="..\LiteNetwork.Protocol\LiteNetwork.Protocol.csproj" />
+  </ItemGroup>
+
+</Project>
