@@ -5,7 +5,7 @@ namespace LiteNetwork.Sample.Echo.Server
 {
     public class EchoServer : LiteServer<ClientUser>
     {
-        public EchoServer(LiteServerConfiguration configuration)
+        public EchoServer(LiteServerOptions configuration)
             : base(configuration)
         {
         }

@@ -1,4 +1,5 @@
-﻿using LiteNetwork.Protocol.Abstractions;
+﻿using LiteNetwork.Common.Hosting;
+using LiteNetwork.Protocol.Abstractions;
 using LiteNetwork.Server.Abstractions;
 using LiteNetwork.Server.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,10 +15,13 @@ namespace LiteNetwork.Server.Tests.Hosting
         public void SetupDefaultLiteServerHostTest()
         {
             IHost host = new HostBuilder()
-                .UseLiteServer<CustomUser>((host, options) =>
+                .ConfigureLiteNetwork(builder =>
                 {
-                    options.Host = "127.0.0.1";
-                    options.Port = 4444;
+                    builder.AddLiteServer<CustomUser>(options =>
+                    {
+                        options.Host = "127.0.0.1";
+                        options.Port = 4444;
+                    });
                 })
                 .Build();
 
@@ -33,10 +37,13 @@ namespace LiteNetwork.Server.Tests.Hosting
         public void SetupCustomLiteServerHostTest()
         {
             IHost host = new HostBuilder()
-                .UseLiteServer<CustomServer, CustomUser>((host, options) =>
+                .ConfigureLiteNetwork(builder =>
                 {
-                    options.Host = "127.0.0.1";
-                    options.Port = 4444;
+                    builder.AddLiteServer<CustomServer, CustomUser>(options =>
+                    {
+                        options.Host = "127.0.0.1";
+                        options.Port = 4444;
+                    });
                 })
                 .Build();
 
@@ -55,8 +62,8 @@ namespace LiteNetwork.Server.Tests.Hosting
 
         private class CustomServer : LiteServer<CustomUser>
         {
-            public CustomServer(LiteServerConfiguration configuration, ILitePacketProcessor packetProcessor = null, IServiceProvider serviceProvider = null) 
-                : base(configuration, packetProcessor, serviceProvider)
+            public CustomServer(LiteServerOptions configuration, IServiceProvider serviceProvider) 
+                : base(configuration, serviceProvider)
             {
             }
         }

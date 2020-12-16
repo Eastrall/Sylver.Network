@@ -53,7 +53,7 @@ namespace LiteNetwork.Server
         /// Creates and initializes a new <see cref="LiteServerOptions"/> instance
         /// with a default <see cref="LitePacketProcessor"/>.
         /// </summary>
-        internal LiteServerOptions()
+        public LiteServerOptions()
         {
             PacketProcessor = new LitePacketProcessor();
         }

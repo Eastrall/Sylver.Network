@@ -7,8 +7,10 @@ namespace LiteNetwork.Sample.Echo.Server
     {
         static void Main(string[] args)
         {
-            var configuration = new LiteServerConfiguration("127.0.0.1", 4444)
+            var configuration = new LiteServerOptions()
             {
+                Host = "127.0.0.1",
+                Port = 4444,
                 ReceiveStrategy = Common.ReceiveStrategyType.Queued
             };
             using var server = new EchoServer(configuration);
