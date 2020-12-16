@@ -13,7 +13,6 @@ namespace LiteNetwork.Server
     public class LiteServerUser : ILiteConnection, IDisposable
     {
         private readonly LiteSender _sender;
-
         private bool _disposed;
 
         /// <inheritdoc />
@@ -42,7 +41,7 @@ namespace LiteNetwork.Server
         public void Send(ILitePacketStream packet) => _sender.Send(packet.Buffer);
 
         /// <summary>
-        /// Initialize the <see cref="LiteServerUser"/> with the given <see cref="System.Net.Sockets.Socket"/> and a send action.
+        /// Initialize the <see cref="LiteServerUser"/> with the given <see cref="System.Net.Sockets.Socket"/>.
         /// </summary>
         /// <param name="socket">Socket connection.</param>
         internal void Initialize(Socket socket)

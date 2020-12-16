@@ -1,4 +1,5 @@
-﻿using LiteNetwork.Server.Hosting;
+﻿using LiteNetwork.Common.Hosting;
+using LiteNetwork.Server.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
@@ -12,10 +13,13 @@ namespace LiteNetwork.Samples.Hosting.Server
             Console.Title = "LiteNetwork Hosting Sample";
 
             var host = new HostBuilder()
-                .UseLiteServer<ICustomServer, CustomServer, ServerUser>((host, options) =>
+                .ConfigureLiteNetwork((context, builder) =>
                 {
-                    options.Host = "127.0.0.1";
-                    options.Port = 4444;
+                    builder.AddLiteServer<ICustomServer, CustomServer, ServerUser>(options =>
+                    {
+                        options.Host = "127.0.0.1";
+                        options.Port = 4444;
+                    });
                 })
                 .UseConsoleLifetime()
                 .Build();

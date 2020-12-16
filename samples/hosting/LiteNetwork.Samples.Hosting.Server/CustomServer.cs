@@ -1,5 +1,4 @@
-﻿using LiteNetwork.Protocol.Abstractions;
-using LiteNetwork.Server;
+﻿using LiteNetwork.Server;
 using System;
 
 namespace LiteNetwork.Samples.Hosting.Server
@@ -11,8 +10,8 @@ namespace LiteNetwork.Samples.Hosting.Server
 
     public class CustomServer : LiteServer<ServerUser>, ICustomServer
     {
-        public CustomServer(LiteServerConfiguration configuration, ILitePacketProcessor packetProcessor = null, IServiceProvider serviceProvider = null)
-            : base(configuration, packetProcessor, serviceProvider)
+        public CustomServer(LiteServerOptions configuration, IServiceProvider serviceProvider) 
+            : base(configuration, serviceProvider)
         {
         }
 

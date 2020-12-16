@@ -21,7 +21,7 @@ namespace LiteNetwork.Server.Abstractions
         /// <summary>
         /// Gets the server configuration.
         /// </summary>
-        LiteServerConfiguration Configuration { get; }
+        LiteServerOptions Configuration { get; }
 
         /// <summary>
         /// Gets a collection that contains all the connected <typeparamref name="TUser"/>.

@@ -34,54 +34,30 @@ namespace LiteNetwork.Server
         public bool IsRunning { get; private set; }
 
         /// <inheritdoc />
-        public LiteServerConfiguration Configuration { get; }
+        public LiteServerOptions Configuration { get; }
 
         /// <inheritdoc />
         public IEnumerable<TUser> ConnectedUsers => _connectedUsers.Values;
 
         /// <summary>
-        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration
-        /// and a default <see cref="ILitePacketProcessor"/>.
+        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration.
         /// </summary>
         /// <param name="configuration">Server configuration</param>
-        public LiteServer(LiteServerConfiguration configuration)
-            : this(configuration, new LitePacketProcessor())
+        public LiteServer(LiteServerOptions configuration)
+            : this(configuration, null)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration
-        /// and a <see cref="ILitePacketProcessor"/>.
-        /// </summary>
-        /// <param name="configuration">Server configuration</param>
-        /// <param name="packetProcessor">A <see cref="ILitePacketProcessor"/> to use.</param>
-        public LiteServer(LiteServerConfiguration configuration, ILitePacketProcessor packetProcessor)
-            : this(configuration, packetProcessor, null)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration,
-        /// an <see cref="IServiceProvider"/> and a default <see cref="LitePacketProcessor"/>.
+        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration 
+        /// and a service provider.
         /// </summary>
         /// <param name="configuration">Server configuration.</param>
         /// <param name="serviceProvider">Service provider to use.</param>
-        public LiteServer(LiteServerConfiguration configuration, IServiceProvider serviceProvider)
-            : this(configuration, new LitePacketProcessor(), serviceProvider)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration,
-        /// packet processor and a service provider.
-        /// </summary>
-        /// <param name="configuration">Server configuration.</param>
-        /// <param name="packetProcessor">Packet processor to use.</param>
-        /// <param name="serviceProvider">Service provider to use.</param>
-        public LiteServer(LiteServerConfiguration configuration, ILitePacketProcessor packetProcessor, IServiceProvider? serviceProvider)
+        public LiteServer(LiteServerOptions configuration, IServiceProvider? serviceProvider)
         {
             Configuration = configuration;
-            _packetProcessor = packetProcessor;
+            _packetProcessor = configuration.PacketProcessor;
             _serviceProvider = serviceProvider!;
             _connectedUsers = new ConcurrentDictionary<Guid, TUser>();
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
