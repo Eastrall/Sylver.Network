@@ -5,8 +5,8 @@ namespace LiteNetwork.Sample.Echo.Server
 {
     public class EchoServer : LiteServer<ClientUser>
     {
-        public EchoServer(LiteServerOptions configuration)
-            : base(configuration)
+        public EchoServer(LiteServerOptions options)
+            : base(options)
         {
         }
 
@@ -17,7 +17,7 @@ namespace LiteNetwork.Sample.Echo.Server
 
         protected override void OnAfterStart()
         {
-            Console.WriteLine($"Echo server listining on port: {Configuration.Port}");
+            Console.WriteLine($"Echo server listining on port: {Options.Port}");
         }
     }
 }

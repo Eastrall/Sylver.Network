@@ -62,8 +62,8 @@ namespace LiteNetwork.Server.Tests.Hosting
 
         private class CustomServer : LiteServer<CustomUser>
         {
-            public CustomServer(LiteServerOptions configuration, IServiceProvider serviceProvider) 
-                : base(configuration, serviceProvider)
+            public CustomServer(LiteServerOptions options, IServiceProvider serviceProvider) 
+                : base(options, serviceProvider)
             {
             }
         }

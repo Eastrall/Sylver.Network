@@ -10,8 +10,8 @@ namespace LiteNetwork.Samples.Hosting.Server
 
     public class CustomServer : LiteServer<ServerUser>, ICustomServer
     {
-        public CustomServer(LiteServerOptions configuration, IServiceProvider serviceProvider) 
-            : base(configuration, serviceProvider)
+        public CustomServer(LiteServerOptions options, IServiceProvider serviceProvider)
+            : base(options, serviceProvider)
         {
         }
 
@@ -22,7 +22,7 @@ namespace LiteNetwork.Samples.Hosting.Server
 
         protected override void OnAfterStart()
         {
-            Console.WriteLine($"Server listening on port {Configuration.Port}.");
+            Console.WriteLine($"Server listening on port {Options.Port}.");
         }
 
         public void DoSomething()

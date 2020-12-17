@@ -1,6 +1,5 @@
 ﻿using LiteNetwork.Common;
 using LiteNetwork.Common.Exceptions;
-using LiteNetwork.Protocol;
 using LiteNetwork.Protocol.Abstractions;
 using LiteNetwork.Server.Abstractions;
 using LiteNetwork.Server.Internal;
@@ -34,7 +33,7 @@ namespace LiteNetwork.Server
         public bool IsRunning { get; private set; }
 
         /// <inheritdoc />
-        public LiteServerOptions Configuration { get; }
+        public LiteServerOptions Options { get; }
 
         /// <inheritdoc />
         public IEnumerable<TUser> ConnectedUsers => _connectedUsers.Values;
@@ -56,7 +55,7 @@ namespace LiteNetwork.Server
         /// <param name="serviceProvider">Service provider to use.</param>
         public LiteServer(LiteServerOptions configuration, IServiceProvider? serviceProvider)
         {
-            Configuration = configuration;
+            Options = configuration;
             _packetProcessor = configuration.PacketProcessor;
             _serviceProvider = serviceProvider!;
             _connectedUsers = new ConcurrentDictionary<Guid, TUser>();
@@ -72,7 +71,7 @@ namespace LiteNetwork.Server
             _acceptor.OnClientAccepted += OnClientAccepted;
             _acceptor.OnError += OnAcceptorError;
 
-            _receiver = new LiteServerReceiver(_packetProcessor, Configuration.ReceiveStrategy, Configuration.ClientBufferSize);
+            _receiver = new LiteServerReceiver(_packetProcessor, Options.ReceiveStrategy, Options.ClientBufferSize);
             _receiver.Disconnected += OnDisconnected;
             _receiver.Error += OnReceiverError;
         }
@@ -93,9 +92,9 @@ namespace LiteNetwork.Server
 
             OnBeforeStart();
 
-            IPEndPoint localEndPoint = await LiteNetworkHelpers.CreateIpEndPointAsync(Configuration.Host, Configuration.Port).ConfigureAwait(false);
+            IPEndPoint localEndPoint = await LiteNetworkHelpers.CreateIpEndPointAsync(Options.Host, Options.Port).ConfigureAwait(false);
             _socket.Bind(localEndPoint);
-            _socket.Listen(Configuration.Backlog);
+            _socket.Listen(Options.Backlog);
             _acceptor.StartAccept();
             IsRunning = true;
 

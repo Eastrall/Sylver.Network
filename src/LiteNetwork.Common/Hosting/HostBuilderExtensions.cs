@@ -8,7 +8,6 @@ namespace LiteNetwork.Common.Hosting
     /// </summary>
     public static class HostBuilderExtensions
     {
-
         /// <summary>
         /// Configures a <see cref="ILiteBuilder"/> service in to the specified <see cref="IHostBuilder"/>.
         /// </summary>
