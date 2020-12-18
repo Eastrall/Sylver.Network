@@ -1,6 +1,5 @@
 ﻿using LiteNetwork.Common;
 using LiteNetwork.Common.Exceptions;
-using LiteNetwork.Protocol;
 using LiteNetwork.Protocol.Abstractions;
 using LiteNetwork.Server.Abstractions;
 using LiteNetwork.Server.Internal;
@@ -34,54 +33,30 @@ namespace LiteNetwork.Server
         public bool IsRunning { get; private set; }
 
         /// <inheritdoc />
-        public LiteServerConfiguration Configuration { get; }
+        public LiteServerOptions Options { get; }
 
         /// <inheritdoc />
         public IEnumerable<TUser> ConnectedUsers => _connectedUsers.Values;
 
         /// <summary>
-        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration
-        /// and a default <see cref="ILitePacketProcessor"/>.
+        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration.
         /// </summary>
         /// <param name="configuration">Server configuration</param>
-        public LiteServer(LiteServerConfiguration configuration)
-            : this(configuration, new LitePacketProcessor())
+        public LiteServer(LiteServerOptions configuration)
+            : this(configuration, null)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration
-        /// and a <see cref="ILitePacketProcessor"/>.
-        /// </summary>
-        /// <param name="configuration">Server configuration</param>
-        /// <param name="packetProcessor">A <see cref="ILitePacketProcessor"/> to use.</param>
-        public LiteServer(LiteServerConfiguration configuration, ILitePacketProcessor packetProcessor)
-            : this(configuration, packetProcessor, null)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration,
-        /// an <see cref="IServiceProvider"/> and a default <see cref="LitePacketProcessor"/>.
+        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration 
+        /// and a service provider.
         /// </summary>
         /// <param name="configuration">Server configuration.</param>
         /// <param name="serviceProvider">Service provider to use.</param>
-        public LiteServer(LiteServerConfiguration configuration, IServiceProvider serviceProvider)
-            : this(configuration, new LitePacketProcessor(), serviceProvider)
+        public LiteServer(LiteServerOptions configuration, IServiceProvider? serviceProvider)
         {
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration,
-        /// packet processor and a service provider.
-        /// </summary>
-        /// <param name="configuration">Server configuration.</param>
-        /// <param name="packetProcessor">Packet processor to use.</param>
-        /// <param name="serviceProvider">Service provider to use.</param>
-        public LiteServer(LiteServerConfiguration configuration, ILitePacketProcessor packetProcessor, IServiceProvider? serviceProvider)
-        {
-            Configuration = configuration;
-            _packetProcessor = packetProcessor;
+            Options = configuration;
+            _packetProcessor = configuration.PacketProcessor;
             _serviceProvider = serviceProvider!;
             _connectedUsers = new ConcurrentDictionary<Guid, TUser>();
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -96,7 +71,7 @@ namespace LiteNetwork.Server
             _acceptor.OnClientAccepted += OnClientAccepted;
             _acceptor.OnError += OnAcceptorError;
 
-            _receiver = new LiteServerReceiver(_packetProcessor, Configuration.ReceiveStrategy, Configuration.ClientBufferSize);
+            _receiver = new LiteServerReceiver(_packetProcessor, Options.ReceiveStrategy, Options.ClientBufferSize);
             _receiver.Disconnected += OnDisconnected;
             _receiver.Error += OnReceiverError;
         }
@@ -117,9 +92,9 @@ namespace LiteNetwork.Server
 
             OnBeforeStart();
 
-            IPEndPoint localEndPoint = await LiteNetworkHelpers.CreateIpEndPointAsync(Configuration.Host, Configuration.Port).ConfigureAwait(false);
+            IPEndPoint localEndPoint = await LiteNetworkHelpers.CreateIpEndPointAsync(Options.Host, Options.Port).ConfigureAwait(false);
             _socket.Bind(localEndPoint);
-            _socket.Listen(Configuration.Backlog);
+            _socket.Listen(Options.Backlog);
             _acceptor.StartAccept();
             IsRunning = true;
 

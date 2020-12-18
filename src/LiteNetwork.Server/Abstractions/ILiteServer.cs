@@ -10,7 +10,7 @@ namespace LiteNetwork.Server.Abstractions
     /// Provides a mechanism to manage a TCP server.
     /// </summary>
     /// <typeparam name="TUser">The user type that the server will be use.</typeparam>
-    public interface ILiteServer<TUser> : IDisposable 
+    public interface ILiteServer<TUser> : IDisposable
         where TUser : LiteServerUser
     {
         /// <summary>
@@ -21,7 +21,7 @@ namespace LiteNetwork.Server.Abstractions
         /// <summary>
         /// Gets the server configuration.
         /// </summary>
-        LiteServerConfiguration Configuration { get; }
+        LiteServerOptions Options { get; }
 
         /// <summary>
         /// Gets a collection that contains all the connected <typeparamref name="TUser"/>.
