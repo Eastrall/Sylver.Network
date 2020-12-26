@@ -1,5 +1,6 @@
 ﻿using LiteNetwork.Client.Abstractions;
-using LiteNetwork.Common;
+using LiteNetwork.Client.Internal;
+using LiteNetwork.Common.Internal;
 using LiteNetwork.Protocol.Abstractions;
 using System;
 using System.Net.Sockets;
@@ -9,22 +10,23 @@ namespace LiteNetwork.Client
 {
     public class LiteClient : ILiteClient
     {
+        private readonly LiteSender _sender;
+        private readonly LiteClientReceiver _receiver;
+
         /// <inheritdoc />
         public Guid Id { get; }
 
-        /// <summary>
-        /// Gets or sets the user's connection socket
-        /// </summary>
-        internal Socket Socket { get; set; } = null!;
+        public Socket Socket { get; private set; }
 
-        /// <summary>
-        /// Defines an action to send an <see cref="ILitePacketStream"/>.
-        /// </summary>
-        internal Action<ILitePacketStream>? SendAction { get; set; }
+        public LiteClientOptions Options { get; }
 
-        public LiteClient()
+        public LiteClient(LiteClientOptions options)
         {
             Id = Guid.NewGuid();
+            Options = options;
+            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _sender = new LiteSender(this);
+            _receiver = new LiteClientReceiver(options.PacketProcessor, options.ReceiveStrategy, options.BufferSize);
         }
 
         public virtual Task HandleMessageAsync(ILitePacketStream incomingPacketStream)
@@ -32,9 +34,7 @@ namespace LiteNetwork.Client
             return Task.CompletedTask;
         }
 
-        public virtual void Send(ILitePacketStream packet)
-        {
-        }
+        public virtual void Send(ILitePacketStream packet) => _sender.Send(packet.Buffer);
 
         public Task ConnectAsync()
         {
@@ -44,6 +44,20 @@ namespace LiteNetwork.Client
         public Task DisconnectAsync()
         {
             return Task.CompletedTask;
+        }
+
+        protected virtual void OnConnected()
+        {
+        }
+
+        protected virtual void OnDisconnected()
+        {
+        }
+
+        public void Dispose()
+        {
+            _sender.Dispose();
+            _receiver.Dispose();
         }
     }
 }
