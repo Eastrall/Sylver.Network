@@ -57,7 +57,7 @@ namespace LiteNetwork.Server.Hosting
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            builder.Services.AddSingleton<ILiteServer<TLiteServerUser>, TLiteServer>(serviceProvider =>
+            builder.Services.AddSingleton(serviceProvider =>
             {
                 var liteServerOptions = new LiteServerOptions();
                 configure(liteServerOptions);
@@ -66,7 +66,7 @@ namespace LiteNetwork.Server.Hosting
 
             builder.Services.AddHostedService(serviceProvider =>
             {
-                var serverInstance = serviceProvider.GetRequiredService<ILiteServer<TLiteServerUser>>();
+                var serverInstance = serviceProvider.GetRequiredService<TLiteServer>();
                 return new LiteServerHostedService<TLiteServerUser>(serverInstance);
             });
 

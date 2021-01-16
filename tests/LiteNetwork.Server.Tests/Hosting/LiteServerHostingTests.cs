@@ -49,7 +49,7 @@ namespace LiteNetwork.Server.Tests.Hosting
 
             using (host)
             {
-                var server = host.Services.GetRequiredService<ILiteServer<CustomUser>>();
+                var server = host.Services.GetRequiredService<CustomServer>();
 
                 Assert.IsType<CustomServer>(server);
                 Assert.True(server is ILiteServer<CustomUser>);
