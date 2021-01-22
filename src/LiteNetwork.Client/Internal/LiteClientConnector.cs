@@ -14,7 +14,7 @@ namespace LiteNetwork.Client.Internal
         /// <summary>
         /// The event used when an error has been occurred during the connection process.
         /// </summary>
-        public event EventHandler<Exception>? Error;
+        public event EventHandler<LiteClientConnectionException>? Error;
 
         private readonly SocketAsyncEventArgs _socketEvent;
         private TaskCompletionSource<bool>? _taskCompletion;
@@ -67,11 +67,19 @@ namespace LiteNetwork.Client.Internal
 
             Task.Run(async () =>
             {
-                _socketEvent.RemoteEndPoint = await LiteNetworkHelpers.CreateIpEndPointAsync(_host, _port).ConfigureAwait(false);
-
-                if (!_socket.ConnectAsync(_socketEvent))
+                try
                 {
-                    OnCompleted(this, _socketEvent);
+                    _socketEvent.RemoteEndPoint = await LiteNetworkHelpers.CreateIpEndPointAsync(_host, _port).ConfigureAwait(false);
+
+                    if (!_socket.ConnectAsync(_socketEvent))
+                    {
+                        OnCompleted(this, _socketEvent);
+                    }
+                }
+                catch (SocketException)
+                {
+                    Error?.Invoke(this, new LiteClientConnectionException(SocketError.HostUnreachable));
+                    _taskCompletion.SetResult(false);
                 }
             });
 
@@ -92,20 +100,15 @@ namespace LiteNetwork.Client.Internal
                     else
                     {
                         State = LiteClientStateType.Disconnected;
-                        _taskCompletion?.SetResult(false);
                         Error?.Invoke(this, new LiteClientConnectionException(e.SocketError));
+                        _taskCompletion?.SetResult(false);
                     }
                 }
             }
-            catch (StackOverflowException)
+            catch (InvalidOperationException ex)
             {
-                _taskCompletion?.SetResult(false);
-                Error?.Invoke(this, new LiteClientConnectionException(SocketError.HostUnreachable));
-            }
-            catch (Exception ex)
-            {
-                _taskCompletion?.SetResult(false);
                 Error?.Invoke(this, new LiteClientConnectionException("Cannot connect to remote host.", ex));
+                _taskCompletion?.SetResult(false);
             }
         }
     }
