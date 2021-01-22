@@ -9,7 +9,7 @@ namespace LiteNetwork.Client.Internal
     /// <summary>
     /// Provides a mechanism to manage the lite client connection to a given endpoint.
     /// </summary>
-    internal class LiteClientConnector
+    internal class LiteClientConnector : IDisposable
     {
         /// <summary>
         /// The event used when an error has been occurred during the connection process.
@@ -47,10 +47,10 @@ namespace LiteNetwork.Client.Internal
 
 
         /// <summary>
-        /// Start an asynchronous connection to a remote host.
+        /// Begins an asynchronous connection to a remote host.
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> that representing the asynchronous operation.
-        /// The returns True if the client has been connected successfully, otherwise False.</returns>
+        /// Returns True if the client has been connected successfully, otherwise, False.</returns>
         public Task<bool> ConnectAsync()
         {
             lock (this)
@@ -86,6 +86,33 @@ namespace LiteNetwork.Client.Internal
             return _taskCompletion.Task;
         }
 
+        /// <summary>
+        /// Begins an asynchronous disconnection to a remote host.
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> that representing the asynchronous operation.
+        /// Returns True if the client has been disconnected successfully, otherwise, False.</returns>
+        public Task<bool> DisconnectAsync()
+        {
+            lock (this)
+            {
+                if (State != LiteClientStateType.Connected)
+                {
+                    throw new InvalidOperationException($"Cannot disconnect with current client state: {State}");
+                }
+            }
+            _taskCompletion = new TaskCompletionSource<bool>();
+
+            Task.Run(() =>
+            {
+                if (!_socket.DisconnectAsync(_socketEvent))
+                {
+                    OnCompleted(this, _socketEvent);
+                }
+            });
+
+            return _taskCompletion.Task;
+        }
+
         private void OnCompleted(object? sender, SocketAsyncEventArgs e)
         {
             try
@@ -104,12 +131,32 @@ namespace LiteNetwork.Client.Internal
                         _taskCompletion?.SetResult(false);
                     }
                 }
+                else if (e.LastOperation == SocketAsyncOperation.Disconnect)
+                {
+                    if (e.SocketError == SocketError.Success)
+                    {
+                        State = LiteClientStateType.Disconnected;
+                        _taskCompletion?.SetResult(true);
+                    }
+                    else
+                    {
+                        Error?.Invoke(this, new LiteClientConnectionException(e.SocketError));
+                        _taskCompletion?.SetResult(false);
+                    }
+                }
             }
             catch (InvalidOperationException ex)
             {
                 Error?.Invoke(this, new LiteClientConnectionException("Cannot connect to remote host.", ex));
-                _taskCompletion?.SetResult(false);
             }
+        }
+
+        /// <summary>
+        /// Dispose the connector resources.
+        /// </summary>
+        public void Dispose()
+        {
+            _socketEvent.Dispose();
         }
     }
 }

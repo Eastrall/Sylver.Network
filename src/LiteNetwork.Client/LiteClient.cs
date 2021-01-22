@@ -86,9 +86,15 @@ namespace LiteNetwork.Client
         }
 
         /// <inheritdoc />
-        public Task DisconnectAsync()
+        public async Task DisconnectAsync()
         {
-            return Task.CompletedTask;
+            bool isDisconnected = await _connector.DisconnectAsync();
+
+            if (isDisconnected)
+            {
+                _sender.Stop();
+                OnDisconnected();
+            }
         }
 
         /// <summary>
@@ -112,8 +118,10 @@ namespace LiteNetwork.Client
         /// </summary>
         public void Dispose()
         {
+            _connector.Dispose();
             _sender.Dispose();
             _receiver.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
