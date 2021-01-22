@@ -15,12 +15,12 @@ namespace LiteNetwork.Client
         public const int DefaultBufferSize = 128;
 
         /// <summary>
-        /// Gets or sets the distant host to connect.
+        /// Gets or sets the remote host to connect.
         /// </summary>
         public string Host { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets the distant port to connect.
+        /// Gets or sets the remote port to connect.
         /// </summary>
         public int Port { get; set; }
 

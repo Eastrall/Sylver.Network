@@ -19,7 +19,7 @@ namespace LiteNetwork.Server.Abstractions
         bool IsRunning { get; }
 
         /// <summary>
-        /// Gets the server configuration.
+        /// Gets the server configuration options.
         /// </summary>
         LiteServerOptions Options { get; }
 
