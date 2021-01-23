@@ -76,7 +76,7 @@ namespace LiteNetwork.Server.Hosting
         /// <summary>
         /// Initializes a <typeparamref name="TLiteServerImplementation"/> with the specified <typeparamref name="TLiteServerUser"/>.
         /// </summary>
-        /// <typeparam name="TLiteServer">LiteServer abstraction</typeparam>
+        /// <typeparam name="TLiteServer">LiteServer abstraction.</typeparam>
         /// <typeparam name="TLiteServerImplementation">LiteServer implementation.</typeparam>
         /// <typeparam name="TLiteServerUser">LiteServer user.</typeparam>
         /// <param name="builder">A <see cref="ILiteBuilder"/> to add server.</param>
