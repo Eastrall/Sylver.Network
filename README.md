@@ -12,7 +12,7 @@ It has been initialy developed for game development networking, but can also be 
 
 ## How to install
 
-`LiteNetwork` is shiped as a single packet (for now), you can install it through the Visual Studio project package manager or using the following command in the Package Manager Console:
+`LiteNetwork` is shiped as a single package (for now), you can install it through the Visual Studio project package manager or using the following command in the Package Manager Console:
 
 ```sh
 $> Install-Package LiteNetwork
