@@ -12,9 +12,15 @@ namespace LiteNetwork.Client
 {
     public class LiteClient : ILiteClient
     {
-        public event EventHandler Connected = null!;
+        /// <summary>
+        /// The event used when the client has been connected.
+        /// </summary>
+        public event EventHandler? Connected;
 
-        public event EventHandler Disconnected = null!;
+        /// <summary>
+        /// The event used when the client has been disconnected.
+        /// </summary>
+        public event EventHandler? Disconnected;
 
         private readonly IServiceProvider _serviceProvider = null!;
         private readonly ILogger<LiteClient>? _logger;
@@ -22,12 +28,20 @@ namespace LiteNetwork.Client
         private readonly LiteSender _sender;
         private readonly LiteClientReceiver _receiver;
 
+        /// <inheritdoc />
         public Guid Id { get; }
 
-        public Socket Socket { get; private set; }
+        /// <inheritdoc />
+        public Socket Socket { get; }
 
+        /// <inheritdoc />
         public LiteClientOptions Options { get; }
 
+        /// <summary>
+        /// Creates a new <see cref="LiteClient"/> instance with the given <see cref="LiteClientOptions"/>.
+        /// </summary>
+        /// <param name="options">A client configuration options.</param>
+        /// <param name="serviceProvider">Service provider to use.</param>
         public LiteClient(LiteClientOptions options, IServiceProvider serviceProvider = null!)
         {
             if (options is null)
@@ -37,9 +51,9 @@ namespace LiteNetwork.Client
 
             Id = Guid.NewGuid();
             Options = options;
-            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _serviceProvider = serviceProvider;
-            _connector = new LiteClientConnector(this, Options);
+            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _connector = new LiteClientConnector(Socket, Options.Host, Options.Port);
             _sender = new LiteSender(this);
             _receiver = new LiteClientReceiver(options.PacketProcessor, options.ReceiveStrategy, options.BufferSize);
 
@@ -49,13 +63,16 @@ namespace LiteNetwork.Client
             }
         }
 
+        /// <inheritdoc />
         public virtual Task HandleMessageAsync(ILitePacketStream incomingPacketStream)
         {
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc />
         public virtual void Send(ILitePacketStream packet) => _sender.Send(packet.Buffer);
 
+        /// <inheritdoc />
         public async Task ConnectAsync()
         {
             bool isConnected = await _connector.ConnectAsync();
@@ -68,25 +85,43 @@ namespace LiteNetwork.Client
             }
         }
 
-        public Task DisconnectAsync()
+        /// <inheritdoc />
+        public async Task DisconnectAsync()
         {
-            return Task.CompletedTask;
+            bool isDisconnected = await _connector.DisconnectAsync();
+
+            if (isDisconnected)
+            {
+                _sender.Stop();
+                OnDisconnected();
+            }
         }
 
+        /// <summary>
+        /// Fired when the client has been connected.
+        /// </summary>
         protected virtual void OnConnected()
         {
             Connected?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// Fired when the client has been disconnected.
+        /// </summary>
         protected virtual void OnDisconnected()
         {
             Disconnected?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// Dispose the client resources.
+        /// </summary>
         public void Dispose()
         {
+            _connector.Dispose();
             _sender.Dispose();
             _receiver.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
