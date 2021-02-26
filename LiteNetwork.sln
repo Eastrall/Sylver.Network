@@ -32,7 +32,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{CAFA623B
 		build\azure-pipelines.yml = build\azure-pipelines.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteNetwork.Client", "src\LiteNetwork.Client\LiteNetwork.Client.csproj", "{B695E400-BE1C-4A86-A4D3-4D64CE0CBD6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetwork.Client", "src\LiteNetwork.Client\LiteNetwork.Client.csproj", "{B695E400-BE1C-4A86-A4D3-4D64CE0CBD6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteNetwork.Client.Tests", "tests\LiteNetwork.Client.Tests\LiteNetwork.Client.Tests.csproj", "{64E6418B-9E01-4722-B50E-9692A7805A4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,12 @@ Global
 		{B695E400-BE1C-4A86-A4D3-4D64CE0CBD6F}.Package|Any CPU.Build.0 = Debug|Any CPU
 		{B695E400-BE1C-4A86-A4D3-4D64CE0CBD6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B695E400-BE1C-4A86-A4D3-4D64CE0CBD6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64E6418B-9E01-4722-B50E-9692A7805A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64E6418B-9E01-4722-B50E-9692A7805A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64E6418B-9E01-4722-B50E-9692A7805A4F}.Package|Any CPU.ActiveCfg = Debug|Any CPU
+		{64E6418B-9E01-4722-B50E-9692A7805A4F}.Package|Any CPU.Build.0 = Debug|Any CPU
+		{64E6418B-9E01-4722-B50E-9692A7805A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64E6418B-9E01-4722-B50E-9692A7805A4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +103,7 @@ Global
 		{67D8DC91-886A-48D4-8011-9E18827B1ADF} = {08407BA9-FFBA-4A7E-8B6B-D0F0F74537FF}
 		{3BC3FC47-46FD-49A7-A37F-E83ACABA41AF} = {08407BA9-FFBA-4A7E-8B6B-D0F0F74537FF}
 		{B695E400-BE1C-4A86-A4D3-4D64CE0CBD6F} = {4A8D35B5-7954-4921-8DDF-B63AC30FC56E}
+		{64E6418B-9E01-4722-B50E-9692A7805A4F} = {08407BA9-FFBA-4A7E-8B6B-D0F0F74537FF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97CFF3C5-B79C-4272-95B7-3E9267427D92}
