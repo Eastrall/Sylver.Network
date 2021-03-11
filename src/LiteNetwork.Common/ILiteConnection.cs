@@ -32,5 +32,11 @@ namespace LiteNetwork.Common
         /// </summary>
         /// <param name="packet">Packet stream.</param>
         void Send(ILitePacketStream packet);
+
+        /// <summary>
+        /// Sends a raw <see cref="byte[]" /> buffer to the remote end point.
+        /// </summary>
+        /// <param name="packetBuffer">Raw packet buffer as a byte array.</param>
+        void Send(byte[] packetBuffer);
     }
 }

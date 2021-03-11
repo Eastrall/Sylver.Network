@@ -73,6 +73,9 @@ namespace LiteNetwork.Client
         public virtual void Send(ILitePacketStream packet) => _sender.Send(packet.Buffer);
 
         /// <inheritdoc />
+        public virtual void Send(byte[] packetBuffer) => _sender.Send(packetBuffer);
+
+        /// <inheritdoc />
         public async Task ConnectAsync()
         {
             bool isConnected = await _connector.ConnectAsync();
