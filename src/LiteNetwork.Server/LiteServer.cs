@@ -41,9 +41,9 @@ namespace LiteNetwork.Server
         /// <summary>
         /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration.
         /// </summary>
-        /// <param name="configuration">Server configuration</param>
-        public LiteServer(LiteServerOptions configuration)
-            : this(configuration, null)
+        /// <param name="options">Server configuration options.</param>
+        public LiteServer(LiteServerOptions options)
+            : this(options, null)
         {
         }
 
@@ -51,12 +51,17 @@ namespace LiteNetwork.Server
         /// Creates a new <see cref="LiteServer{TUser}"/> instance with a server configuration 
         /// and a service provider.
         /// </summary>
-        /// <param name="configuration">Server configuration.</param>
+        /// <param name="options">Server configuration options.</param>
         /// <param name="serviceProvider">Service provider to use.</param>
-        public LiteServer(LiteServerOptions configuration, IServiceProvider? serviceProvider)
+        public LiteServer(LiteServerOptions options, IServiceProvider? serviceProvider)
         {
-            Options = configuration;
-            _packetProcessor = configuration.PacketProcessor;
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
+            Options = options;
+            _packetProcessor = options.PacketProcessor;
             _serviceProvider = serviceProvider!;
             _connectedUsers = new ConcurrentDictionary<Guid, TUser>();
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

@@ -38,7 +38,10 @@ namespace LiteNetwork.Server
         }
 
         /// <inheritdoc />
-        public void Send(ILitePacketStream packet) => _sender.Send(packet.Buffer);
+        public virtual void Send(ILitePacketStream packet) => _sender.Send(packet.Buffer);
+
+        /// <inheritdoc />
+        public virtual void Send(byte[] packetBuffer) => _sender.Send(packetBuffer);
 
         /// <summary>
         /// Initialize the <see cref="LiteServerUser"/> with the given <see cref="System.Net.Sockets.Socket"/>.
