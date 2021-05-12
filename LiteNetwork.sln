@@ -27,11 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetwork.Common.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetwork.Server.Tests", "tests\LiteNetwork.Server.Tests\LiteNetwork.Server.Tests.csproj", "{3BC3FC47-46FD-49A7-A37F-E83ACABA41AF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{CAFA623B-2C35-458A-AC0F-AD881286B998}"
-	ProjectSection(SolutionItems) = preProject
-		build\azure-pipelines.yml = build\azure-pipelines.yml
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetwork", "src\LiteNetwork\LiteNetwork.csproj", "{C8B411EE-8C33-4D7F-8CD8-FD1105A6DCB7}"
 EndProject
 Global
