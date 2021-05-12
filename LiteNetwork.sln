@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetwork.Common.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetwork.Server.Tests", "tests\LiteNetwork.Server.Tests\LiteNetwork.Server.Tests.csproj", "{3BC3FC47-46FD-49A7-A37F-E83ACABA41AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetwork", "src\LiteNetwork\LiteNetwork.csproj", "{C8B411EE-8C33-4D7F-8CD8-FD1105A6DCB7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,12 +70,6 @@ Global
 		{3BC3FC47-46FD-49A7-A37F-E83ACABA41AF}.Package|Any CPU.Build.0 = Package|Any CPU
 		{3BC3FC47-46FD-49A7-A37F-E83ACABA41AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BC3FC47-46FD-49A7-A37F-E83ACABA41AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8B411EE-8C33-4D7F-8CD8-FD1105A6DCB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8B411EE-8C33-4D7F-8CD8-FD1105A6DCB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8B411EE-8C33-4D7F-8CD8-FD1105A6DCB7}.Package|Any CPU.ActiveCfg = Package|Any CPU
-		{C8B411EE-8C33-4D7F-8CD8-FD1105A6DCB7}.Package|Any CPU.Build.0 = Package|Any CPU
-		{C8B411EE-8C33-4D7F-8CD8-FD1105A6DCB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8B411EE-8C33-4D7F-8CD8-FD1105A6DCB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,7 +81,6 @@ Global
 		{A937757A-7F08-4965-B371-630396A36A9E} = {08407BA9-FFBA-4A7E-8B6B-D0F0F74537FF}
 		{67D8DC91-886A-48D4-8011-9E18827B1ADF} = {08407BA9-FFBA-4A7E-8B6B-D0F0F74537FF}
 		{3BC3FC47-46FD-49A7-A37F-E83ACABA41AF} = {08407BA9-FFBA-4A7E-8B6B-D0F0F74537FF}
-		{C8B411EE-8C33-4D7F-8CD8-FD1105A6DCB7} = {4A8D35B5-7954-4921-8DDF-B63AC30FC56E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97CFF3C5-B79C-4272-95B7-3E9267427D92}
