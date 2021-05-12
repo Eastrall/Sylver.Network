@@ -6,6 +6,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release;Package</Configurations>
+    <Version>1.0.0-beta.1</Version>
   </PropertyGroup>
   
   <!-- Package configuration -->

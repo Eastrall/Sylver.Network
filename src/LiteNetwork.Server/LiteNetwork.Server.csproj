@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
-    <Version>1.0.0-rc.6</Version>
+    <Version>1.0.0-beta.1</Version>
     <Authors>Filipe GOMES PEIXOTO</Authors>
     <Product>LiteNetwork</Product>
     <Copyright>Filipe GOMES PEIXOTO © 2019-2021</Copyright>
